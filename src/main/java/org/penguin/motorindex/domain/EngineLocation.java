@@ -2,6 +2,7 @@ package org.penguin.motorindex.domain;
 
 import java.util.Map;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 
 public enum EngineLocation {
@@ -16,4 +17,8 @@ public enum EngineLocation {
             .put("Rear", REAR)
             .put("Mid-Front", MID_FRONT)
             .build();
+    
+    public static EngineLocation fromString(String str) {
+        return stringToLocation.get(Strings.nullToEmpty(str));
+    }
 }

@@ -1,9 +1,9 @@
 package org.penguin.motorindex.domain;
 
 public class Car {
-    private PriceRange pricePrivate;
-    private PriceRange priceTrade;
-    private String avgKm;
+    private IntRange pricePrivate;
+    private IntRange priceTrade;
+    private IntRange avgKm;
     
     private Integer priceNew;
     
@@ -22,11 +22,11 @@ public class Car {
     private Integer gears;
     private Integer cylinders;
     private InductionType induction;
-    private String compression;
+    private Double compression;
     private FuelType fuel;
     private Integer recommendedFuel;
     private Integer fuelCapacity;
-    private String fuelDelivery;
+    private FuelDeliveryType fuelDelivery;
     private PowerRating power;
     private PowerRating torque;
     private CamType cam;
@@ -41,21 +41,21 @@ public class Car {
     private String engineCode;
     private String countryOrigin;
     
-    private String deliverMethod;
+    private DeliveryMethod deliverMethod;
     
     // Measurements
     private Integer carbonGramsPerKM;
     private Double fuelRatingUrban;
     private Double fuelRatingExtraUrban;
     private Double fuelRatingCombined;
-    private String valvesPerCylinder;
+    private Integer valvesPerCylinder;
     private Double accel;
     
     // Size
     private Integer weightKerb;
     private Integer weightTare;
     private Integer weightGrossCombined;
-    private String weightGross;
+    private Integer weightGross;
     private Double length;
     private Double width;
     private Double height;
@@ -69,23 +69,23 @@ public class Car {
     private Integer warrantyKm;
     private Integer warrantyYears;
     
-    private String steering;
+    private SteeringType steering;
     
     private String tyreFront;
     private String rimFront;
-    private String rimMaterial;
+    private RimMaterial rimMaterial;
     
     private Car() {
     }
     
-    public Car(PriceRange pricePrivate, PriceRange priceTrade, String avgKm, int priceNew, BodyType bodyType, int doors, int seats, DriveType driveType,
+    public Car(IntRange pricePrivate, IntRange priceTrade, IntRange avgKm, Integer priceNew, BodyType bodyType, int doors, int seats, DriveType driveType,
             EngineLocation engineLocation, EngineConfiguration engineConfiguration, EngineCycle engineCycle, int engineSize, EngineType engineType, TransmissionType transmission, int gears,
-            int cylinders, InductionType induction, String compression, FuelType fuel, Integer recommendedFuel, Integer fuelCapacity, String fuelDelivery,
+            int cylinders, InductionType induction, Double compression, FuelType fuel, Integer recommendedFuel, Integer fuelCapacity, FuelDeliveryType fuelDelivery,
             PowerRating power, PowerRating torque, CamType cam, int year, String badge, String series, String vin, String engineNumber, String engineCode,
-            String countryOrigin, String deliverMethod, int carbonGramsPerKM, double fuelRatingUrban, double fuelRatingExtraUrban, double fuelRatingCombined,
-            String valvesPerCylinder, double accel, int weightKerb, int weightTare, int weightGrossCombined, String weightGross, double length,
+            String countryOrigin, DeliveryMethod deliverMethod, int carbonGramsPerKM, double fuelRatingUrban, double fuelRatingExtraUrban, double fuelRatingCombined,
+            Integer valvesPerCylinder, double accel, int weightKerb, int weightTare, int weightGrossCombined, Integer weightGross, double length,
             double width, double height, int towingBrakedKg, int towingKg, double trackFront, double trackRear, double wheelBase, double payload,
-            int warrantyKm, int warrantyYears, String steering, String tyreFront, String rimFront, String rimMaterial) {
+            int warrantyKm, int warrantyYears, SteeringType steering, String tyreFront, String rimFront, RimMaterial rimMaterial) {
         super();
         this.pricePrivate = pricePrivate;
         this.priceTrade = priceTrade;

@@ -2,6 +2,7 @@ package org.penguin.motorindex.domain;
 
 import java.util.Map;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 
 public enum TransmissionType {
@@ -26,4 +27,8 @@ public enum TransmissionType {
             .put("Seq. Manual Auto-Dual Clutch", DUAL_CLUTCH_SEQUENTIAL_MANUAL)
             .put("Reduction Gear", REDUCTION_GEAR)
             .build();
+    
+    public static TransmissionType fromString(String str) {
+        return stringToTransmission.get(Strings.nullToEmpty(str));
+    }
 }

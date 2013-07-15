@@ -2,6 +2,7 @@ package org.penguin.motorindex.domain;
 
 import java.util.Map;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 
 public enum CamType {
@@ -24,4 +25,8 @@ public enum CamType {
             .put("Pushrod", PUSHROD)
             .put("Pushrod with VVT", PUSHROD_VVT)
             .build();
+    
+    public static CamType fromString(String str) {
+        return stringToCam.get(Strings.nullToEmpty(str));
+    }
 }

@@ -54,14 +54,3 @@ var ask = function (all) {
         ask(all);
     });
 };
-
-//induction
-// cam
-// fuelCapacity
-// recommendedFuel
-// engineType
-// countryOrigin
-// deliverMethod
-// fuelDelivery
-// steering
-// Material

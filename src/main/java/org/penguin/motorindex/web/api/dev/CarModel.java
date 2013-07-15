@@ -1,6 +1,24 @@
 package org.penguin.motorindex.web.api.dev;
 
+import org.penguin.motorindex.domain.BodyType;
+import org.penguin.motorindex.domain.CamType;
 import org.penguin.motorindex.domain.Car;
+import org.penguin.motorindex.domain.DeliveryMethod;
+import org.penguin.motorindex.domain.DriveType;
+import org.penguin.motorindex.domain.EngineConfiguration;
+import org.penguin.motorindex.domain.EngineCycle;
+import org.penguin.motorindex.domain.EngineLocation;
+import org.penguin.motorindex.domain.EngineType;
+import org.penguin.motorindex.domain.FuelDeliveryType;
+import org.penguin.motorindex.domain.FuelType;
+import org.penguin.motorindex.domain.InductionType;
+import org.penguin.motorindex.domain.IntRange;
+import org.penguin.motorindex.domain.PowerRating;
+import org.penguin.motorindex.domain.RimMaterial;
+import org.penguin.motorindex.domain.SteeringType;
+import org.penguin.motorindex.domain.TransmissionType;
+
+import com.google.common.base.Strings;
 
 public class CarModel {
     private String pricePrivate;
@@ -63,7 +81,94 @@ public class CarModel {
     private String accel;
     
     public Car asCar() {
+        return new Car(
+                IntRange.fromString(pricePrivate),
+                IntRange.fromString(priceTrade),
+                IntRange.fromString(avgKm),
+                getPrice(priceNew),
+                BodyType.fromString(bodyType),
+                getInt(doors),
+                getInt(seats),
+                DriveType.fromString(driveType),
+                EngineLocation.fromString(engineLocation),
+                EngineConfiguration.fromString(engineConfiguration),
+                EngineCycle.fromString(engineCycle),
+                getInt(engineSize),
+                EngineType.fromString(engineType),
+                TransmissionType.fromString(transmission),
+                getInt(gears),
+                getInt(cylinders),
+                InductionType.fromString(induction),
+                getDouble(compression),
+                FuelType.fromString(fuel),
+                getInt(recommendedFuel),
+                getInt(fuelCapacity),
+                FuelDeliveryType.fromString(fuelDelivery),
+                PowerRating.fromString(power),
+                PowerRating.fromString(torque),
+                CamType.fromString(cam),
+                getInt(year),
+                badge,
+                series,
+                vin,
+                engineNumber,
+                engineCode,
+                countryOrigin,
+                DeliveryMethod.fromString(deliverMethod),
+                getInt(carbonGramsPerKM),
+                getDouble(fuelRatingUrban),
+                getDouble(fuelRatingExtraUrban),
+                getDouble(fuelRatingCombined),
+                getInt(valvesPerCylinder),
+                getDouble(accel),
+                getInt(weightKerb),
+                getInt(weightTare),
+                getInt(weightGrossCombined),
+                getInt(weightGross),
+                getDouble(length),
+                getDouble(width),
+                getDouble(height),
+                getInt(towingBrakedKg),
+                getInt(towingKg),
+                getDouble(trackFront),
+                getDouble(trackRear),
+                getInt(wheelBase),
+                getInt(payload),
+                getInt(warrantyKm),
+                getInt(warrantyYears),
+                SteeringType.fromString(steering),
+                tyreFront,
+                rimFront,
+                RimMaterial.fromString(rimMaterial));
+    }
+    
+    private static Integer getInt(String str) {
+        if (Strings.isNullOrEmpty(str)) {
+            return null;
+        }
+        return Integer.parseInt(str);
+    }
+    
+    private static Double getDouble(String str) {
+        if (Strings.isNullOrEmpty(str)) {
+            return null;
+        }
+        return Double.parseDouble(str);
+    }
+    
+    public static Integer getPrice(String str) {
+        if (Strings.isNullOrEmpty(str)) {
+            return null;
+        }
+        // $56,990* Price Guide (EGC)
+        str = str.replaceAll("[$,]", "");
+        String[] split = str.split("\\*");
         
+        try {
+            return Integer.parseInt(split[0]);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
     
     public String getPricePrivate() {

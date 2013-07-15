@@ -2,6 +2,7 @@ package org.penguin.motorindex.domain;
 
 import java.util.Map;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 
 public enum EngineConfiguration {
@@ -28,4 +29,8 @@ public enum EngineConfiguration {
             .put("V75", V75)
             .put("V72", V72)
             .build();
+    
+    public static EngineConfiguration fromString(String str) {
+        return stringToEngineConfiguration.get(Strings.nullToEmpty(str));
+    }
 }

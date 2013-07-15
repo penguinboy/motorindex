@@ -2,6 +2,7 @@ package org.penguin.motorindex.domain;
 
 import java.util.Map;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 
 public enum EngineType {
@@ -16,4 +17,8 @@ public enum EngineType {
             .put("Rotary", ROTARY)
             .put("Electric", ELECTRIC)
             .build();
+    
+    public static EngineType fromString(String str) {
+        return stringToEngineType.get(Strings.nullToEmpty(str));
+    }
 }

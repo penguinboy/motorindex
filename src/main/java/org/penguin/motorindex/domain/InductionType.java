@@ -2,6 +2,7 @@ package org.penguin.motorindex.domain;
 
 import java.util.Map;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 
 public enum InductionType {
@@ -26,4 +27,8 @@ public enum InductionType {
             .put("Twin Supercharged Intercooled", TWIN_SUPERCHARGED_INTERCOOLED)
             .put("Triple Turbo Intercooled", TRIPLE_TURBO_INTERCOOLED)
             .build();
+    
+    public static InductionType fromString(String str) {
+        return stringToInduction.get(Strings.nullToEmpty(str));
+    }
 }

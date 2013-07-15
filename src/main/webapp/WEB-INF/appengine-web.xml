@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
+	<application>raynerw-motorindex</application>
+	<version>1</version>
+	
+	<sessions-enabled>true</sessions-enabled>
+	
+	<!-- Configure java.util.logging -->
+	<system-properties>
+		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+	</system-properties>
+	
+	<threadsafe>true</threadsafe>
+	
+	<static-files>
+	    <include path="/css/**.css" expiration="1d" />
+	    <include path="/css/**.less" expiration="1d" />
+	    <include path="/js/**.js" expiration="1d" />
+        <include path="/views/**.html" expiration="1d" />
+        <include path="/scripts/**.js" expiration="1d" />
+    </static-files>
+    <public-root>/root</public-root>
+</appengine-web-app>

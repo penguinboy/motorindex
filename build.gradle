@@ -1,0 +1,116 @@
+import org.apache.ivy.plugins.resolver.URLResolver
+
+apply plugin: 'java'
+apply plugin: 'gae'
+apply plugin: 'war'
+
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
+sourceSets {
+   main {
+     //if you truly want to override the defaults:
+     output.resourcesDir = 'src/main/webapp/WEB-INF/classes'
+     output.classesDir   = 'src/main/webapp/WEB-INF/classes'
+   }
+ }
+
+buildscript {
+    gitHub = {
+        def resolver = new URLResolver()
+
+        resolver.with {
+            name = 'GitHub'
+            addArtifactPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].[ext]'
+        }
+
+        resolver
+    }
+
+    repositories {
+        add gitHub()
+    }
+
+    dependencies {
+        classpath 'bmuschko:gradle-gae-plugin:0.7.1'
+   }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name 'htmleasy'
+        url 'http://htmleasy-maven.googlecode.com/svn/trunk/'
+    }
+    maven {
+        name 'jboss'
+        url 'https://repository.jboss.org/nexus/content/repositories/thirdparty-releases'
+    }
+}
+
+dependencies {
+    def gaeVersion = '1.8.1.1'
+    def guiceVersion = '3.0'
+    def restEasyVersion = '2.3.1.GA'
+
+    gaeSdk "com.google.appengine:appengine-java-sdk:$gaeVersion"
+
+    testCompile "junit:junit:4.8.2",
+                "org.mockito:mockito-all:1.8.5",
+                "com.google.appengine:appengine-testing:${gaeVersion}",
+                "com.google.appengine:appengine-api-stubs:${gaeVersion}"
+
+    compile "com.google.appengine:appengine-api-1.0-sdk:${gaeVersion}",
+            'com.google.guava:guava:r09',
+            "com.google.inject:guice:${guiceVersion}",
+            "com.google.inject.extensions:guice-servlet:${guiceVersion}",
+            'com.googlecode.htmleasy:htmleasy:0.7',
+            'com.googlecode.objectify:objectify:4.0b3',
+            'javax.persistence:persistence-api:1.0',
+            'javax.servlet:javax.servlet-api:3.0.1',
+            'org.codehaus.jackson:jackson-mapper-asl:1.9.7',
+            // RESTEasy
+            "org.jboss.resteasy:resteasy-jaxrs:${restEasyVersion}"
+
+    runtime "org.jboss.resteasy:resteasy-jackson-provider:${restEasyVersion}",
+            module("org.jboss.resteasy:resteasy-guice:${restEasyVersion}") {
+                dependency('com.google.inject:guice:${guiceVersion}')
+            }
+}
+
+task setupEnvironment(dependsOn: ['gaeDownloadSdk']) { 
+    description = "Setup Eclipse/Dev Environment" 
+} << {
+
+    ant.delete(dir: 'src/main/webapp/WEB-INF/lib', failonerror: false)
+
+    // Copy GAE JARs to WEB-INF/lib
+    def gaeExplodedSdkDir = project.buildDir.absolutePath + '/exploded-gae-sdk/appengine-java-sdk-1.7.7'
+    
+    tree = fileTree(gaeExplodedSdkDir) {
+        include "lib/user/**/*.jar"
+        exclude "lib/user/orm/geronimo-jpa_*"
+    }
+    tree.each {File file ->
+        println file
+        copy {
+            from file
+            into 'src/main/webapp/WEB-INF/lib'
+        }
+    }
+
+    // Copy all to WEB-INF/lib (for eclipse runtime)
+    configurations.runtime.each { entry ->
+        if (entry.path.endsWith(".jar")) {
+            project.ant.copy(todir: "src/main/webapp/WEB-INF/lib") {
+                fileset(file: entry.path)
+            }
+        }
+    }
+}
+
+gae {
+    downloadSdk = true
+    stopKey = 'gradle'
+    warDir = file('src/main/webapp')
+}

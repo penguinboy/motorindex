@@ -1,6 +1,7 @@
 package org.penguin.motorindex;
 
 import org.penguin.motorindex.domain.DomainModule;
+import org.penguin.motorindex.web.WebModule;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
@@ -17,6 +18,7 @@ public class ApplicationModule implements Module {
         binder.install(new ServletModule());
         
         binder.install(new DomainModule());
+        binder.install(new WebModule());
     }
     
 }

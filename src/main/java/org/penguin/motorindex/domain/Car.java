@@ -1,6 +1,16 @@
 package org.penguin.motorindex.domain;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+
+@Entity
 public class Car {
+    @Id
+    private Long id;
+    
+    private String make;
+    private String model;
+    
     private IntRange pricePrivate;
     private IntRange priceTrade;
     private IntRange avgKm;
@@ -16,7 +26,7 @@ public class Car {
     private EngineLocation engineLocation;
     private EngineConfiguration engineConfiguration;
     private EngineCycle engineCycle;
-    private int engineSize;
+    private Integer engineSize;
     private EngineType engineType;
     private TransmissionType transmission;
     private Integer gears;
@@ -63,8 +73,8 @@ public class Car {
     private Integer towingKg;
     private Double trackFront;
     private Double trackRear;
-    private Double wheelBase;
-    private Double payload;
+    private Integer wheelBase;
+    private Integer payload;
     
     private Integer warrantyKm;
     private Integer warrantyYears;
@@ -78,15 +88,18 @@ public class Car {
     private Car() {
     }
     
-    public Car(IntRange pricePrivate, IntRange priceTrade, IntRange avgKm, Integer priceNew, BodyType bodyType, int doors, int seats, DriveType driveType,
-            EngineLocation engineLocation, EngineConfiguration engineConfiguration, EngineCycle engineCycle, int engineSize, EngineType engineType, TransmissionType transmission, int gears,
-            int cylinders, InductionType induction, Double compression, FuelType fuel, Integer recommendedFuel, Integer fuelCapacity, FuelDeliveryType fuelDelivery,
-            PowerRating power, PowerRating torque, CamType cam, int year, String badge, String series, String vin, String engineNumber, String engineCode,
-            String countryOrigin, DeliveryMethod deliverMethod, int carbonGramsPerKM, double fuelRatingUrban, double fuelRatingExtraUrban, double fuelRatingCombined,
-            Integer valvesPerCylinder, double accel, int weightKerb, int weightTare, int weightGrossCombined, Integer weightGross, double length,
-            double width, double height, int towingBrakedKg, int towingKg, double trackFront, double trackRear, double wheelBase, double payload,
-            int warrantyKm, int warrantyYears, SteeringType steering, String tyreFront, String rimFront, RimMaterial rimMaterial) {
+    public Car(String make, String model, IntRange pricePrivate, IntRange priceTrade, IntRange avgKm, Integer priceNew, BodyType bodyType, Integer doors, Integer seats, DriveType driveType,
+            EngineLocation engineLocation, EngineConfiguration engineConfiguration, EngineCycle engineCycle, Integer engineSize, EngineType engineType, TransmissionType transmission, Integer gears,
+            Integer cylinders, InductionType induction, Double compression, FuelType fuel, Integer recommendedFuel, Integer fuelCapacity, FuelDeliveryType fuelDelivery,
+            PowerRating power, PowerRating torque, CamType cam, Integer year, String badge, String series, String vin, String engineNumber, String engineCode,
+            String countryOrigin, DeliveryMethod deliverMethod, Integer carbonGramsPerKM, Double fuelRatingUrban, Double fuelRatingExtraUrban, Double fuelRatingCombined,
+            Integer valvesPerCylinder, Double accel, Integer weightKerb, Integer weightTare, Integer weightGrossCombined, Integer weightGross, Double length,
+            Double width, Double height, Integer towingBrakedKg, Integer towingKg, Double trackFront, Double trackRear, Integer wheelBase, Integer payload,
+            Integer warrantyKm, Integer warrantyYears, SteeringType steering, String tyreFront, String rimFront, RimMaterial rimMaterial) {
         super();
+        
+        this.make = make;
+        this.model = model;
         this.pricePrivate = pricePrivate;
         this.priceTrade = priceTrade;
         this.avgKm = avgKm;
@@ -147,4 +160,247 @@ public class Car {
         this.rimMaterial = rimMaterial;
     }
     
+    public Long getId() {
+        return id;
+    }
+    
+    public String getMake() {
+        return make;
+    }
+    
+    public String getModel() {
+        return model;
+    }
+    
+    public IntRange getPricePrivate() {
+        return pricePrivate;
+    }
+    
+    public IntRange getPriceTrade() {
+        return priceTrade;
+    }
+    
+    public IntRange getAvgKm() {
+        return avgKm;
+    }
+    
+    public Integer getPriceNew() {
+        return priceNew;
+    }
+    
+    public BodyType getBodyType() {
+        return bodyType;
+    }
+    
+    public Integer getDoors() {
+        return doors;
+    }
+    
+    public Integer getSeats() {
+        return seats;
+    }
+    
+    public DriveType getDriveType() {
+        return driveType;
+    }
+    
+    public EngineLocation getEngineLocation() {
+        return engineLocation;
+    }
+    
+    public EngineConfiguration getEngineConfiguration() {
+        return engineConfiguration;
+    }
+    
+    public EngineCycle getEngineCycle() {
+        return engineCycle;
+    }
+    
+    public Integer getEngineSize() {
+        return engineSize;
+    }
+    
+    public EngineType getEngineType() {
+        return engineType;
+    }
+    
+    public TransmissionType getTransmission() {
+        return transmission;
+    }
+    
+    public Integer getGears() {
+        return gears;
+    }
+    
+    public Integer getCylinders() {
+        return cylinders;
+    }
+    
+    public InductionType getInduction() {
+        return induction;
+    }
+    
+    public Double getCompression() {
+        return compression;
+    }
+    
+    public FuelType getFuel() {
+        return fuel;
+    }
+    
+    public Integer getRecommendedFuel() {
+        return recommendedFuel;
+    }
+    
+    public Integer getFuelCapacity() {
+        return fuelCapacity;
+    }
+    
+    public FuelDeliveryType getFuelDelivery() {
+        return fuelDelivery;
+    }
+    
+    public PowerRating getPower() {
+        return power;
+    }
+    
+    public PowerRating getTorque() {
+        return torque;
+    }
+    
+    public CamType getCam() {
+        return cam;
+    }
+    
+    public int getYear() {
+        return year;
+    }
+    
+    public String getBadge() {
+        return badge;
+    }
+    
+    public String getSeries() {
+        return series;
+    }
+    
+    public String getVin() {
+        return vin;
+    }
+    
+    public String getEngineNumber() {
+        return engineNumber;
+    }
+    
+    public String getEngineCode() {
+        return engineCode;
+    }
+    
+    public String getCountryOrigin() {
+        return countryOrigin;
+    }
+    
+    public DeliveryMethod getDeliverMethod() {
+        return deliverMethod;
+    }
+    
+    public Integer getCarbonGramsPerKM() {
+        return carbonGramsPerKM;
+    }
+    
+    public Double getFuelRatingUrban() {
+        return fuelRatingUrban;
+    }
+    
+    public Double getFuelRatingExtraUrban() {
+        return fuelRatingExtraUrban;
+    }
+    
+    public Double getFuelRatingCombined() {
+        return fuelRatingCombined;
+    }
+    
+    public Integer getValvesPerCylinder() {
+        return valvesPerCylinder;
+    }
+    
+    public Double getAccel() {
+        return accel;
+    }
+    
+    public Integer getWeightKerb() {
+        return weightKerb;
+    }
+    
+    public Integer getWeightTare() {
+        return weightTare;
+    }
+    
+    public Integer getWeightGrossCombined() {
+        return weightGrossCombined;
+    }
+    
+    public Integer getWeightGross() {
+        return weightGross;
+    }
+    
+    public Double getLength() {
+        return length;
+    }
+    
+    public Double getWidth() {
+        return width;
+    }
+    
+    public Double getHeight() {
+        return height;
+    }
+    
+    public Integer getTowingBrakedKg() {
+        return towingBrakedKg;
+    }
+    
+    public Integer getTowingKg() {
+        return towingKg;
+    }
+    
+    public Double getTrackFront() {
+        return trackFront;
+    }
+    
+    public Double getTrackRear() {
+        return trackRear;
+    }
+    
+    public Integer getWheelBase() {
+        return wheelBase;
+    }
+    
+    public Integer getPayload() {
+        return payload;
+    }
+    
+    public Integer getWarrantyKm() {
+        return warrantyKm;
+    }
+    
+    public Integer getWarrantyYears() {
+        return warrantyYears;
+    }
+    
+    public SteeringType getSteering() {
+        return steering;
+    }
+    
+    public String getTyreFront() {
+        return tyreFront;
+    }
+    
+    public String getRimFront() {
+        return rimFront;
+    }
+    
+    public RimMaterial getRimMaterial() {
+        return rimMaterial;
+    }
 }

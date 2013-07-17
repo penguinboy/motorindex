@@ -5,8 +5,10 @@
 .settings/
 bin/
 build/
+scripts/secret.js
 scripts/output
 src/main/webapp/root/*
 src/main/webapp/WEB-INF/appengine-generated/
 src/main/webapp/WEB-INF/classes/
 src/main/webapp/WEB-INF/lib/
+src/main/java/org/penguin/motorindex/web/api/dev/dev.properties

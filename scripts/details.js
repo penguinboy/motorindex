@@ -1,3 +1,7 @@
+
+// Mememory leaks everywhere! Best run in small batches.
+// Usage: ls output/index | xargs -L 1 -P 10 -I{} node details.js {}
+
 var fs = require('fs');
 var jquery = require('jquery');
 var cheerio = require('cheerio');
@@ -58,6 +62,8 @@ _.each(files, function (f) {
                         .done(function (page) {
                             var details = getDetails(cheerio.load(page));
                             console.log(v.name);
+                            details.make = makeName;
+                            details.model = modelName;
                             deferred.resolve(_.union(results, [details]));
                         })
                         .fail(function () {

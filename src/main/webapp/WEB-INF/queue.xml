@@ -5,7 +5,7 @@
   </queue>
   
   <queue>
-    <name>domainClean</name>
+    <name>searchBuild</name>
     <rate>100/s</rate>
   </queue>
 </queue-entries>

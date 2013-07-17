@@ -4,7 +4,9 @@ var fs = require('fs');
 var _ = require('underscore');
 var Q = require('q');
 var async = require('async');
+
 var detailsDir = "output/details";
+
 var files = fs.readdirSync(detailsDir);
 
 console.log('need ' + files.length);

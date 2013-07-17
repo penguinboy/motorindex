@@ -21,6 +21,8 @@ import org.penguin.motorindex.domain.TransmissionType;
 import com.google.common.base.Strings;
 
 public class CarModel {
+    private String make;
+    private String model;
     private String pricePrivate;
     private String priceTrade;
     private String avgKm;
@@ -80,66 +82,68 @@ public class CarModel {
     private String weightGrossCombined;
     private String accel;
     
-    public Car asCar() {
+    public static Car asCar(final CarModel carModel) {
         return new Car(
-                IntRange.fromString(pricePrivate),
-                IntRange.fromString(priceTrade),
-                IntRange.fromString(avgKm),
-                getPrice(priceNew),
-                BodyType.fromString(bodyType),
-                getInt(doors),
-                getInt(seats),
-                DriveType.fromString(driveType),
-                EngineLocation.fromString(engineLocation),
-                EngineConfiguration.fromString(engineConfiguration),
-                EngineCycle.fromString(engineCycle),
-                getInt(engineSize),
-                EngineType.fromString(engineType),
-                TransmissionType.fromString(transmission),
-                getInt(gears),
-                getInt(cylinders),
-                InductionType.fromString(induction),
-                getDouble(compression),
-                FuelType.fromString(fuel),
-                getInt(recommendedFuel),
-                getInt(fuelCapacity),
-                FuelDeliveryType.fromString(fuelDelivery),
-                PowerRating.fromString(power),
-                PowerRating.fromString(torque),
-                CamType.fromString(cam),
-                getInt(year),
-                badge,
-                series,
-                vin,
-                engineNumber,
-                engineCode,
-                countryOrigin,
-                DeliveryMethod.fromString(deliverMethod),
-                getInt(carbonGramsPerKM),
-                getDouble(fuelRatingUrban),
-                getDouble(fuelRatingExtraUrban),
-                getDouble(fuelRatingCombined),
-                getInt(valvesPerCylinder),
-                getDouble(accel),
-                getInt(weightKerb),
-                getInt(weightTare),
-                getInt(weightGrossCombined),
-                getInt(weightGross),
-                getDouble(length),
-                getDouble(width),
-                getDouble(height),
-                getInt(towingBrakedKg),
-                getInt(towingKg),
-                getDouble(trackFront),
-                getDouble(trackRear),
-                getInt(wheelBase),
-                getInt(payload),
-                getInt(warrantyKm),
-                getInt(warrantyYears),
-                SteeringType.fromString(steering),
-                tyreFront,
-                rimFront,
-                RimMaterial.fromString(rimMaterial));
+                carModel.make,
+                carModel.model,
+                IntRange.fromString(carModel.pricePrivate),
+                IntRange.fromString(carModel.priceTrade),
+                IntRange.fromString(carModel.avgKm),
+                getPrice(carModel.priceNew),
+                BodyType.fromString(carModel.bodyType),
+                getInt(carModel.doors),
+                getInt(carModel.seats),
+                DriveType.fromString(carModel.driveType),
+                EngineLocation.fromString(carModel.engineLocation),
+                EngineConfiguration.fromString(carModel.engineConfiguration),
+                EngineCycle.fromString(carModel.engineCycle),
+                getInt(carModel.engineSize),
+                EngineType.fromString(carModel.engineType),
+                TransmissionType.fromString(carModel.transmission),
+                getInt(carModel.gears),
+                getInt(carModel.cylinders),
+                InductionType.fromString(carModel.induction),
+                getDouble(carModel.compression),
+                FuelType.fromString(carModel.fuel),
+                getInt(carModel.recommendedFuel),
+                getInt(carModel.fuelCapacity),
+                FuelDeliveryType.fromString(carModel.fuelDelivery),
+                PowerRating.fromString(carModel.power),
+                PowerRating.fromString(carModel.torque),
+                CamType.fromString(carModel.cam),
+                getInt(carModel.year),
+                carModel.badge,
+                carModel.series,
+                carModel.vin,
+                carModel.engineNumber,
+                carModel.engineCode,
+                carModel.countryOrigin,
+                DeliveryMethod.fromString(carModel.deliverMethod),
+                getInt(carModel.carbonGramsPerKM),
+                getDouble(carModel.fuelRatingUrban),
+                getDouble(carModel.fuelRatingExtraUrban),
+                getDouble(carModel.fuelRatingCombined),
+                getInt(carModel.valvesPerCylinder),
+                getDouble(carModel.accel),
+                getInt(carModel.weightKerb),
+                getInt(carModel.weightTare),
+                getInt(carModel.weightGrossCombined),
+                getInt(carModel.weightGross),
+                getDouble(carModel.length),
+                getDouble(carModel.width),
+                getDouble(carModel.height),
+                getInt(carModel.towingBrakedKg),
+                getInt(carModel.towingKg),
+                getDouble(carModel.trackFront),
+                getDouble(carModel.trackRear),
+                getInt(carModel.wheelBase),
+                getInt(carModel.payload),
+                getInt(carModel.warrantyKm),
+                getInt(carModel.warrantyYears),
+                SteeringType.fromString(carModel.steering),
+                carModel.tyreFront,
+                carModel.rimFront,
+                RimMaterial.fromString(carModel.rimMaterial));
     }
     
     private static Integer getInt(String str) {
@@ -633,5 +637,21 @@ public class CarModel {
     
     public void setAccel(String accel) {
         this.accel = accel;
+    }
+    
+    public String getMake() {
+        return make;
+    }
+    
+    public void setMake(String make) {
+        this.make = make;
+    }
+    
+    public String getModel() {
+        return model;
+    }
+    
+    public void setModel(String model) {
+        this.model = model;
     }
 }

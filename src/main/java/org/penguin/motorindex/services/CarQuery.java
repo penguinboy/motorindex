@@ -86,6 +86,9 @@ public class CarQuery {
     }
     
     public void addAtomValue(String key, Enum val) {
+        if (val == null) {
+            return;
+        }
         for (AtomField field : atomFields) {
             if (field.key.equals(key)) {
                 field.addValue(val);
@@ -95,6 +98,9 @@ public class CarQuery {
     }
     
     public void setNumberLessThan(String key, Double value) {
+        if (value == null) {
+            return;
+        }
         for (NumberField field : numberFields) {
             if (field.key.equals(key)) {
                 field.setLesserEqualThan(value);
@@ -104,9 +110,26 @@ public class CarQuery {
     }
     
     public void setNumberGreaterThan(String key, Double value) {
+        if (value == null) {
+            return;
+        }
+        
         for (NumberField field : numberFields) {
             if (field.key.equals(key)) {
                 field.setGreaterEqualThan(value);
+                return;
+            }
+        }
+    }
+    
+    public void setSearch(String key, String value) {
+        if (Strings.isNullOrEmpty(value)) {
+            return;
+        }
+        
+        for (StringField field : stringFields) {
+            if (field.key.equals(key)) {
+                field.setValue(value);
                 return;
             }
         }

@@ -7,7 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.penguin.motorindex.domain.BodyType;
+import org.jboss.resteasy.annotations.Form;
 import org.penguin.motorindex.domain.Car;
 import org.penguin.motorindex.services.CarQuery;
 import org.penguin.motorindex.services.CarSearchService;
@@ -28,19 +28,19 @@ public class CarController {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Car> index() {
-        CarQuery query = new CarQuery();
-        query.getBodyType().addValue(BodyType.CONVERTIBLE);
+    public Collection<Car> index(@Form CarQueryModel model) {
+        CarQuery query = model.asQuery();
         
         Results<ScoredDocument> results = carSearch.search(query);
         
-        Collection<Key<Car>> carKeys = Collections2.transform(results.getResults(), new Function<ScoredDocument, Key<Car>>() {
-            
-            @Override
-            public Key<Car> apply(ScoredDocument input) {
-                return Key.create(input.getId());
-            }
-        });
+        Collection<Key<Car>> carKeys = Collections2.transform(results.getResults(), new Function<ScoredDocument,
+                Key<Car>>() {
+                    
+                    @Override
+                    public Key<Car> apply(ScoredDocument input) {
+                        return Key.create(input.getId());
+                    }
+                });
         
         return ObjectifyService.ofy().load().keys(carKeys).values();
     }

@@ -1,5 +1,10 @@
 package org.penguin.motorindex.web.api;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.ws.rs.QueryParam;
@@ -14,231 +19,329 @@ import org.penguin.motorindex.domain.EngineType;
 import org.penguin.motorindex.domain.FuelType;
 import org.penguin.motorindex.domain.InductionType;
 import org.penguin.motorindex.domain.TransmissionType;
-import org.penguin.motorindex.services.CarQuery.NumberField;
-import org.penguin.motorindex.services.CarQuery.QueryField;
+import org.penguin.motorindex.services.CarQuery;
+import org.penguin.motorindex.web.api.CarQueryModel.NumberSearchField.LimitType;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 public class CarQueryModel {
     @QueryParam("priceNewLow")
-    @NumberSearchField(value = "priceNew", fieldType = NumberField.class)
+    @NumberSearchField(value = "priceNew", type = LimitType.LOW)
     private Double priceNewLow;
     @QueryParam("priceNewHigh")
-    @NumberSearchField(value = "priceNew", fieldType = NumberField.class)
+    @NumberSearchField(value = "priceNew", type = LimitType.HIGH)
     private Double priceNewHigh;
     
     @QueryParam("pricePrivateLow")
-    @NumberSearchField(value = "pricePrivate", fieldType = NumberField.class)
-    private Set<Double> pricePrivateLow;
+    @NumberSearchField(value = "pricePrivate", type = LimitType.LOW)
+    private Double pricePrivateLow;
     @QueryParam("pricePrivateHigh")
-    @NumberSearchField(value = "pricePrivate", fieldType = NumberField.class)
-    private Set<Double> pricePrivateHigh;
+    @NumberSearchField(value = "pricePrivate", type = LimitType.HIGH)
+    private Double pricePrivateHigh;
     
     @QueryParam("priceTradeLow")
-    @NumberSearchField(value = "priceTrade", fieldType = NumberField.class)
+    @NumberSearchField(value = "priceTrade", type = LimitType.LOW)
     private Double priceTradeLow;
     @QueryParam("priceTradeHigh")
-    @NumberSearchField(value = "priceTrade", fieldType = NumberField.class)
+    @NumberSearchField(value = "priceTrade", type = LimitType.HIGH)
     private Double priceTradeHigh;
     
     @QueryParam("seatsLow")
-    @NumberSearchField(value = "seats", fieldType = NumberField.class)
+    @NumberSearchField(value = "seats", type = LimitType.LOW)
     private Double seatsLow;
     @QueryParam("seatsHigh")
-    @NumberSearchField(value = "seats", fieldType = NumberField.class)
+    @NumberSearchField(value = "seats", type = LimitType.HIGH)
     private Double seatsHigh;
     
     @QueryParam("bodyType")
-    @NumberSearchField(value = "bodyType", fieldType = NumberField.class)
+    @AtomSearchField(value = "bodyType")
     private Set<BodyType> bodyType = Sets.newHashSet();
     
     @QueryParam("doorsLow")
-    @NumberSearchField(value = "doors", fieldType = NumberField.class)
+    @NumberSearchField(value = "doors", type = LimitType.LOW)
     private Double doorsLow;
     @QueryParam("doorsHigh")
-    @NumberSearchField(value = "doors", fieldType = NumberField.class)
+    @NumberSearchField(value = "doors", type = LimitType.HIGH)
     private Double doorsHigh;
     
     @QueryParam("driveType")
-    @NumberSearchField(value = "driveType", fieldType = NumberField.class)
+    @AtomSearchField(value = "driveType")
     private Set<DriveType> driveType = Sets.newHashSet();
     
     @QueryParam("engineLocation")
-    @NumberSearchField(value = "engineLocation", fieldType = NumberField.class)
+    @AtomSearchField(value = "engineLocation")
     private Set<EngineLocation> engineLocation;
     
     @QueryParam("engineCycle")
-    @NumberSearchField(value = "engineCycle", fieldType = NumberField.class)
+    @AtomSearchField(value = "engineCycle")
     private Set<EngineCycle> engineCycle = Sets.newHashSet();
     
     @QueryParam("engineSizeLow")
-    @NumberSearchField(value = "engineSize", fieldType = NumberField.class)
+    @NumberSearchField(value = "engineSize", type = LimitType.LOW)
     private Double engineSizeLow;
     @QueryParam("engineSizeHigh")
-    @NumberSearchField(value = "engineSize", fieldType = NumberField.class)
+    @NumberSearchField(value = "engineSize", type = LimitType.HIGH)
     private Double engineSizeHigh;
     
     @QueryParam("engineType")
-    @NumberSearchField(value = "engineType", fieldType = NumberField.class)
+    @AtomSearchField(value = "engineType")
     private Set<EngineType> engineType = Sets.newHashSet();
     
     @QueryParam("tranmissionType")
-    @NumberSearchField(value = "tranmissionType", fieldType = NumberField.class)
+    @AtomSearchField(value = "tranmissionType")
     private Set<TransmissionType> tranmissionType = Sets.newHashSet();
     
     @QueryParam("gearsLow")
-    @NumberSearchField(value = "gears", fieldType = NumberField.class)
+    @NumberSearchField(value = "gears", type = LimitType.LOW)
     private Double gearsLow;
     @QueryParam("gearsHigh")
-    @NumberSearchField(value = "gears", fieldType = NumberField.class)
+    @NumberSearchField(value = "gears", type = LimitType.HIGH)
     private Double gearsHigh;
     
     @QueryParam("cylindersLow")
-    @NumberSearchField(value = "cylinders", fieldType = NumberField.class)
+    @NumberSearchField(value = "cylinders", type = LimitType.LOW)
     private Double cylindersLow;
     @QueryParam("cylindersHigh")
-    @NumberSearchField(value = "cylinders", fieldType = NumberField.class)
+    @NumberSearchField(value = "cylinders", type = LimitType.HIGH)
     private Double cylindersHigh;
     
     @QueryParam("inductionType")
-    @NumberSearchField(value = "inductionType", fieldType = NumberField.class)
+    @AtomSearchField(value = "inductionType")
     private Set<InductionType> inductionType = Sets.newHashSet();
     
     @QueryParam("compressionLow")
-    @NumberSearchField(value = "compression", fieldType = NumberField.class)
+    @NumberSearchField(value = "compression", type = LimitType.LOW)
     private Double compressionLow;
     @QueryParam("compressionHigh")
-    @NumberSearchField(value = "compression", fieldType = NumberField.class)
+    @NumberSearchField(value = "compression", type = LimitType.HIGH)
     private Double compressionHigh;
     
     @QueryParam("fuelType")
-    @NumberSearchField(value = "fuelType", fieldType = NumberField.class)
+    @AtomSearchField(value = "fuelType")
     private Set<FuelType> fuelType = Sets.newHashSet();
     
     @QueryParam("fuelCapacityLow")
-    @NumberSearchField(value = "fuelCapacity", fieldType = NumberField.class)
+    @NumberSearchField(value = "fuelCapacity", type = LimitType.LOW)
     private Double fuelCapacityLow;
     @QueryParam("fuelCapacityHigh")
-    @NumberSearchField(value = "fuelCapacity", fieldType = NumberField.class)
+    @NumberSearchField(value = "fuelCapacity", type = LimitType.HIGH)
     private Double fuelCapacityHigh;
     
     @QueryParam("fuelDeliveryType")
-    @NumberSearchField(value = "fuelDeliveryType", fieldType = NumberField.class)
+    @AtomSearchField(value = "fuelDeliveryType")
     private Set<DeliveryMethod> fuelDeliveryType = Sets.newHashSet();
     
     @QueryParam("powerLow")
-    @NumberSearchField(value = "power", fieldType = NumberField.class)
+    @NumberSearchField(value = "power", type = LimitType.LOW)
     private Double powerLow;
     @QueryParam("powerHigh")
-    @NumberSearchField(value = "power", fieldType = NumberField.class)
+    @NumberSearchField(value = "power", type = LimitType.HIGH)
     private Double powerHigh;
     
     @QueryParam("torqueLow")
-    @NumberSearchField(value = "torque", fieldType = NumberField.class)
+    @NumberSearchField(value = "torque", type = LimitType.LOW)
     private Double torqueLow;
     @QueryParam("torqueHigh")
-    @NumberSearchField(value = "torque", fieldType = NumberField.class)
+    @NumberSearchField(value = "torque", type = LimitType.HIGH)
     private Double torqueHigh;
     
     @QueryParam("camType")
-    @NumberSearchField(value = "camType", fieldType = NumberField.class)
+    @AtomSearchField(value = "camType")
     private Set<CamType> camType = Sets.newHashSet();
     
     @QueryParam("badge")
-    @NumberSearchField(value = "badge", fieldType = NumberField.class)
+    @SearchField(value = "badge")
     private String badge;
     
     @QueryParam("series")
-    @NumberSearchField(value = "series", fieldType = NumberField.class)
+    @SearchField(value = "series")
     private String series;
     
     @QueryParam("fuelRatingUrbanLow")
-    @NumberSearchField(value = "fuelRatingUrban", fieldType = NumberField.class)
+    @NumberSearchField(value = "fuelRatingUrban", type = LimitType.LOW)
     private Double fuelRatingUrbanLow;
     @QueryParam("fuelRatingUrbanHigh")
-    @NumberSearchField(value = "fuelRatingUrban", fieldType = NumberField.class)
+    @NumberSearchField(value = "fuelRatingUrban", type = LimitType.HIGH)
     private Double fuelRatingUrbanHigh;
     
     @QueryParam("fuelRatingExtraUrbanLow")
-    @NumberSearchField(value = "fuelRatingExtraUrban", fieldType = NumberField.class)
+    @NumberSearchField(value = "fuelRatingExtraUrban", type = LimitType.LOW)
     private Double fuelRatingExtraUrbanLow;
     @QueryParam("fuelRatingExtraUrbanHigh")
-    @NumberSearchField(value = "fuelRatingExtraUrban", fieldType = NumberField.class)
+    @NumberSearchField(value = "fuelRatingExtraUrban", type = LimitType.HIGH)
     private Double fuelRatingExtraUrbanHigh;
     
     @QueryParam("fuelRatingCombinedLow")
-    @NumberSearchField(value = "fuelRatingCombined", fieldType = NumberField.class)
+    @NumberSearchField(value = "fuelRatingCombined", type = LimitType.LOW)
     private Double fuelRatingCombinedLow;
     @QueryParam("fuelRatingCombinedHigh")
-    @NumberSearchField(value = "fuelRatingCombined", fieldType = NumberField.class)
+    @NumberSearchField(value = "fuelRatingCombined", type = LimitType.HIGH)
     private Double fuelRatingCombinedHigh;
     
     @QueryParam("valvesPerCylinderLow")
-    @NumberSearchField(value = "valvesPerCylinder", fieldType = NumberField.class)
+    @NumberSearchField(value = "valvesPerCylinder", type = LimitType.LOW)
     private Double valvesPerCylinderLow;
     @QueryParam("valvesPerCylinderHigh")
-    @NumberSearchField(value = "valvesPerCylinder", fieldType = NumberField.class)
+    @NumberSearchField(value = "valvesPerCylinder", type = LimitType.HIGH)
     private Double valvesPerCylinderHigh;
     
     @QueryParam("accelLow")
-    @NumberSearchField(value = "accel", fieldType = NumberField.class)
+    @NumberSearchField(value = "accel", type = LimitType.LOW)
     private Double accelLow;
     @QueryParam("accelHigh")
-    @NumberSearchField(value = "accel", fieldType = NumberField.class)
+    @NumberSearchField(value = "accel", type = LimitType.HIGH)
     private Double accelHigh;
     
     @QueryParam("weightKerbLow")
-    @NumberSearchField(value = "weightKerb", fieldType = NumberField.class)
+    @NumberSearchField(value = "weightKerb", type = LimitType.LOW)
     private Double weightKerbLow;
     @QueryParam("weightKerbHigh")
-    @NumberSearchField(value = "weightKerb", fieldType = NumberField.class)
+    @NumberSearchField(value = "weightKerb", type = LimitType.HIGH)
     private Double weightKerbHigh;
     
     @QueryParam("weightTareLow")
-    @NumberSearchField(value = "weightTare", fieldType = NumberField.class)
+    @NumberSearchField(value = "weightTare", type = LimitType.LOW)
     private Double weightTareLow;
     @QueryParam("weightTareHigh")
-    @NumberSearchField(value = "weightTare", fieldType = NumberField.class)
+    @NumberSearchField(value = "weightTare", type = LimitType.HIGH)
     private Double weightTareHigh;
     
     @QueryParam("weightGrossCombinedLow")
-    @NumberSearchField(value = "weightGrossCombined", fieldType = NumberField.class)
+    @NumberSearchField(value = "weightGrossCombined", type = LimitType.LOW)
     private Double weightGrossCombinedLow;
     @QueryParam("weightGrossCombinedHigh")
-    @NumberSearchField(value = "weightGrossCombined", fieldType = NumberField.class)
+    @NumberSearchField(value = "weightGrossCombined", type = LimitType.HIGH)
     private Double weightGrossCombinedHigh;
     
     @QueryParam("weightGrossLow")
-    @NumberSearchField(value = "weightGross", fieldType = NumberField.class)
+    @NumberSearchField(value = "weightGross", type = LimitType.LOW)
     private Double weightGrossLow;
     @QueryParam("weightGrossHigh")
-    @NumberSearchField(value = "weightGross", fieldType = NumberField.class)
+    @NumberSearchField(value = "weightGross", type = LimitType.HIGH)
     private Double weightGrossHigh;
     
     @QueryParam("lengthLow")
-    @NumberSearchField(value = "length", fieldType = NumberField.class)
+    @NumberSearchField(value = "length", type = LimitType.LOW)
     private Double lengthLow;
     @QueryParam("lengthHigh")
-    @NumberSearchField(value = "length", fieldType = NumberField.class)
+    @NumberSearchField(value = "length", type = LimitType.HIGH)
     private Double lengthHigh;
     
     @QueryParam("widthLow")
-    @NumberSearchField(value = "width", fieldType = NumberField.class)
+    @NumberSearchField(value = "width", type = LimitType.LOW)
     private Double widthLow;
     @QueryParam("widthHigh")
-    @NumberSearchField(value = "width", fieldType = NumberField.class)
+    @NumberSearchField(value = "width", type = LimitType.HIGH)
     private Double widthHigh;
     
     @QueryParam("heightLow")
-    @NumberSearchField(value = "height", fieldType = NumberField.class)
+    @NumberSearchField(value = "height", type = LimitType.LOW)
     private Double heightLow;
     @QueryParam("heightHigh")
-    @NumberSearchField(value = "height", fieldType = NumberField.class)
+    @NumberSearchField(value = "height", type = LimitType.HIGH)
     private Double heightHigh;
     
+    private static Map<String, Field> lowNumberFields = Maps.newHashMap();
+    private static Map<String, Field> highNumberFields = Maps.newHashMap();
+    private static Map<String, Field> atomFields = Maps.newHashMap();
+    private static Map<String, Field> stringFields = Maps.newHashMap();
+    {
+        for (Field field : CarQueryModel.class.getDeclaredFields()) {
+            NumberSearchField number = field.getAnnotation(NumberSearchField.class);
+            if (number != null) {
+                if (number.type() == LimitType.HIGH) {
+                    highNumberFields.put(number.value(), field);
+                } else {
+                    lowNumberFields.put(number.value(), field);
+                }
+            } else {
+                AtomSearchField atom = field.getAnnotation(AtomSearchField.class);
+                if (atom != null) {
+                    atomFields.put(atom.value(), field);
+                } else {
+                    SearchField search = field.getAnnotation(SearchField.class);
+                    if (search != null) {
+                        stringFields.put(search.value(), field);
+                    }
+                }
+            }
+        }
+    }
+    
+    public CarQuery asQuery() {
+        CarQuery query = new CarQuery();
+        for (Entry<String, Field> low : lowNumberFields.entrySet()) {
+            try {
+                Object raw = low.getValue().get(this);
+                if (raw != null) {
+                    Double val = (Double) raw;
+                    query.setNumberLessThan(low.getKey(), val);
+                }
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        for (Entry<String, Field> high : highNumberFields.entrySet()) {
+            try {
+                Object raw = high.getValue().get(this);
+                if (raw != null) {
+                    Double val = (Double) raw;
+                    query.setNumberGreaterThan(high.getKey(), val);
+                }
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        for (Entry<String, Field> atom : atomFields.entrySet()) {
+            try {
+                Object raw = atom.getValue().get(this);
+                if (raw != null) {
+                    Set<Enum<?>> value = (Set<Enum<?>>) raw;
+                    for (Enum e : value) {
+                        query.addAtomValue(atom.getKey(), e);
+                    }
+                }
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        for (Entry<String, Field> stringField : stringFields.entrySet()) {
+            try {
+                Object raw = stringField.getValue().get(this);
+                if (raw != null) {
+                    query.setSearch(stringField.getKey(), (String) raw);
+                }
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return query;
+    }
+    
+    @Retention(RetentionPolicy.RUNTIME)
     public static @interface NumberSearchField {
+        public static enum LimitType {
+            HIGH,
+            LOW
+        }
+        
         String value();
         
-        Class<? extends QueryField> fieldType();
+        LimitType type();
+    }
+    
+    @Retention(RetentionPolicy.RUNTIME)
+    public static @interface SearchField {
+        String value();
+    }
+    
+    @Retention(RetentionPolicy.RUNTIME)
+    public static @interface AtomSearchField {
+        String value();
     }
 }

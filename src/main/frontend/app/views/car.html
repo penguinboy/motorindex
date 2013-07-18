@@ -64,6 +64,9 @@
     <div class="span12 nothing" ng-hide="cars.length != 0 || loading">Nothing here!</div>
 </div>
 <div class="row">
+    <div class="span12 nothing" ng-hide="!loading">Loading...</div>
+</div>
+<div class="row">
     <div class="span12 car" ng-repeat="car in cars">
         <div class="row">
             <div class="span4">

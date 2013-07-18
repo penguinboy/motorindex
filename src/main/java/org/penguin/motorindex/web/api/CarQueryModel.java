@@ -5,7 +5,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.ws.rs.QueryParam;
 
@@ -20,12 +19,20 @@ import org.penguin.motorindex.domain.FuelType;
 import org.penguin.motorindex.domain.InductionType;
 import org.penguin.motorindex.domain.TransmissionType;
 import org.penguin.motorindex.services.CarQuery;
+import org.penguin.motorindex.web.EnumUnmarshaller.EnumParam;
+import org.penguin.motorindex.web.EnumUnmarshaller.EnumSet;
 import org.penguin.motorindex.web.api.CarQueryModel.NumberSearchField.LimitType;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 public class CarQueryModel {
+    @QueryParam("yearLow")
+    @NumberSearchField(value = "year", type = LimitType.LOW)
+    private Double yearLow;
+    @QueryParam("yearHigh")
+    @NumberSearchField(value = "year", type = LimitType.HIGH)
+    private Double yearHigh;
+    
     @QueryParam("priceNewLow")
     @NumberSearchField(value = "priceNew", type = LimitType.LOW)
     private Double priceNewLow;
@@ -56,7 +63,8 @@ public class CarQueryModel {
     
     @QueryParam("bodyType")
     @AtomSearchField(value = "bodyType")
-    private Set<BodyType> bodyType = Sets.newHashSet();
+    @EnumParam(value = BodyType.class)
+    private EnumSet<BodyType> bodyType;
     
     @QueryParam("doorsLow")
     @NumberSearchField(value = "doors", type = LimitType.LOW)
@@ -67,15 +75,18 @@ public class CarQueryModel {
     
     @QueryParam("driveType")
     @AtomSearchField(value = "driveType")
-    private Set<DriveType> driveType = Sets.newHashSet();
+    @EnumParam(value = DriveType.class)
+    private EnumSet<DriveType> driveType;
     
     @QueryParam("engineLocation")
     @AtomSearchField(value = "engineLocation")
-    private Set<EngineLocation> engineLocation;
+    @EnumParam(value = EngineLocation.class)
+    private EnumSet<EngineLocation> engineLocation;
     
     @QueryParam("engineCycle")
     @AtomSearchField(value = "engineCycle")
-    private Set<EngineCycle> engineCycle = Sets.newHashSet();
+    @EnumParam(value = EngineCycle.class)
+    private EnumSet<EngineCycle> engineCycle;
     
     @QueryParam("engineSizeLow")
     @NumberSearchField(value = "engineSize", type = LimitType.LOW)
@@ -86,11 +97,13 @@ public class CarQueryModel {
     
     @QueryParam("engineType")
     @AtomSearchField(value = "engineType")
-    private Set<EngineType> engineType = Sets.newHashSet();
+    @EnumParam(value = EngineType.class)
+    private EnumSet<EngineType> engineType;
     
     @QueryParam("tranmissionType")
     @AtomSearchField(value = "tranmissionType")
-    private Set<TransmissionType> tranmissionType = Sets.newHashSet();
+    @EnumParam(value = TransmissionType.class)
+    private EnumSet<TransmissionType> tranmissionType;
     
     @QueryParam("gearsLow")
     @NumberSearchField(value = "gears", type = LimitType.LOW)
@@ -108,7 +121,8 @@ public class CarQueryModel {
     
     @QueryParam("inductionType")
     @AtomSearchField(value = "inductionType")
-    private Set<InductionType> inductionType = Sets.newHashSet();
+    @EnumParam(value = InductionType.class)
+    private EnumSet<InductionType> inductionType;
     
     @QueryParam("compressionLow")
     @NumberSearchField(value = "compression", type = LimitType.LOW)
@@ -119,7 +133,8 @@ public class CarQueryModel {
     
     @QueryParam("fuelType")
     @AtomSearchField(value = "fuelType")
-    private Set<FuelType> fuelType = Sets.newHashSet();
+    @EnumParam(value = FuelType.class)
+    private EnumSet<FuelType> fuelType;
     
     @QueryParam("fuelCapacityLow")
     @NumberSearchField(value = "fuelCapacity", type = LimitType.LOW)
@@ -130,7 +145,8 @@ public class CarQueryModel {
     
     @QueryParam("fuelDeliveryType")
     @AtomSearchField(value = "fuelDeliveryType")
-    private Set<DeliveryMethod> fuelDeliveryType = Sets.newHashSet();
+    @EnumParam(value = DeliveryMethod.class)
+    private EnumSet<DeliveryMethod> fuelDeliveryType;
     
     @QueryParam("powerLow")
     @NumberSearchField(value = "power", type = LimitType.LOW)
@@ -148,7 +164,8 @@ public class CarQueryModel {
     
     @QueryParam("camType")
     @AtomSearchField(value = "camType")
-    private Set<CamType> camType = Sets.newHashSet();
+    @EnumParam(value = CamType.class)
+    private EnumSet<CamType> camType;
     
     @QueryParam("badge")
     @SearchField(value = "badge")
@@ -276,7 +293,7 @@ public class CarQueryModel {
                 Object raw = low.getValue().get(this);
                 if (raw != null) {
                     Double val = (Double) raw;
-                    query.setNumberLessThan(low.getKey(), val);
+                    query.setNumberGreaterThan(low.getKey(), val);
                 }
             } catch (IllegalArgumentException | IllegalAccessException e) {
                 // TODO Auto-generated catch block
@@ -288,7 +305,7 @@ public class CarQueryModel {
                 Object raw = high.getValue().get(this);
                 if (raw != null) {
                     Double val = (Double) raw;
-                    query.setNumberGreaterThan(high.getKey(), val);
+                    query.setNumberLessThan(high.getKey(), val);
                 }
             } catch (IllegalArgumentException | IllegalAccessException e) {
                 // TODO Auto-generated catch block
@@ -299,8 +316,8 @@ public class CarQueryModel {
             try {
                 Object raw = atom.getValue().get(this);
                 if (raw != null) {
-                    Set<Enum<?>> value = (Set<Enum<?>>) raw;
-                    for (Enum e : value) {
+                    EnumSet<Enum<?>> value = (EnumSet<Enum<?>>) raw;
+                    for (Enum e : value.values()) {
                         query.addAtomValue(atom.getKey(), e);
                     }
                 }

@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('frontendApp', [])
+angular.module('frontendApp', ['frontendApp.resources'])
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'views/car.html',
+        controller: 'CarCtrl'
       })
       .otherwise({
         redirectTo: '/'

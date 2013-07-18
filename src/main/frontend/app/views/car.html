@@ -1,0 +1,139 @@
+<div class="row">
+    <div class="span4 offset4 header">
+        <h1>Motorindex</h1>
+    </div>
+</div>
+<div class="row">
+    <form class="span12 form">
+        <div class="row">
+            <div class="control-group span2">
+                <label class="control-label">From year</label>
+                <div class="controls">
+                    <input type="number" ng-model="form.yearLow" class="span2">
+                </div>
+                <label class="control-label">To year</label>
+                <div class="controls">
+                    <input type="number" ng-model="form.yearHigh" class="span2">
+                </div>
+            </div>
+            <div class="control-group span2">
+                <label class="control-label">Min power (kW)</label>
+                <div class="controls">
+                    <input type="number" ng-model="form.powerLow" class="span2">
+                </div>
+                <label class="control-label">Max power  (kW)</label>
+                <div class="controls">
+                    <input type="number" ng-model="form.powerHigh" class="span2">
+                </div>
+            </div>
+            <div class="control-group span2">
+                <label class="control-label">Min torque (Nm)</label>
+                <div class="controls">
+                    <input type="number" ng-model="form.torqueLow" class="span2">
+                </div>
+                <label class="control-label">Max torque (Nm)</label>
+                <div class="controls">
+                    <input type="number" ng-model="form.torqueHigh" class="span2">
+                </div>
+            </div>
+            <div class="control-group span2">
+                <label class="control-label">Min weight (kg)</label>
+                <div class="controls">
+                    <input type="number" ng-model="form.weightKerbLow" class="span2">
+                </div>
+                <label class="control-label">Max weight (kg)</label>
+                <div class="controls">
+                    <input type="number" ng-model="form.weightKerbHigh" class="span2">
+                </div>
+            </div>
+            <div class="control-group span2">
+                <label class="control-label">Drive type</label>
+                <div class="controls">
+                    <label class="checkbox"><input type="checkbox" ng-model="form.driveType.RWD"> RWD</label>
+                    <label class="checkbox"><input type="checkbox" ng-model="form.driveType.FWD"> FWD</label>
+                    <label class="checkbox"><input type="checkbox" ng-model="form.driveType.FOURWD"> AWD</label>
+                </div>
+            </div>
+            <div class="span1">
+                <button ng-click="search()" class="pull-right btn btn-large">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <div class="span12 nothing" ng-hide="cars.length != 0 || loading">Nothing here!</div>
+</div>
+<div class="row">
+    <div class="span12 car" ng-repeat="car in cars">
+        <div class="row">
+            <div class="span4">
+                <h4 class="title">{{car.year}} {{car.make}} {{car.model}} {{car.series}} {{car.badge}}</h4>
+            </div>
+            <div class="span2">
+                <h4 class="stat">{{car.weightKerb | weight}}</h4>
+            </div>
+            <div class="span2">
+                <h4 class="stat">{{car.power.amount | kw}}</h4>
+            </div>
+            <div class="span2">
+                <h4 class="stat">{{car.torque.amount | nm}}</h4>
+            </div>
+            <div class="span2">
+                <h4 class="stat">{{car.driveType}}</h4>
+            </div>
+        </div>
+        <div class="details">
+            <div class="important-details">
+                <div class="row">
+                    <div class="span2">
+                        <h5>Power/Weight</h5>
+                        <h4 class="stat">{{car.power.amount / car.weightKerb | number:2 | nullable}}</h4>
+                    </div>
+                    <div class="span2">
+                        <h5>0-100</h5>
+                        <h4 class="stat">{{car.accel | nullable}}</h4>
+                    </div>
+                    <div class="span2">
+                        <h5>Peak power</h5>
+                        <h4 ng-show="car.power.rpm" class="stat">{{car.power.rpm}} rpm</h4>
+                        <h4 ng-hide="car.power.rpm" class="stat">-</h4>
+                    </div>
+                    <div class="span3">
+                        <h5>Price new</h5>
+                        <h4 class="stat">{{car.priceNew | nullable | currency}}</h4>
+                    </div>
+                    <div class="span3">
+                        <h5>Price used</h5>
+                        <h4 ng-hide="car.pricePrivate" class="stat">-</h4>
+                        <h4 ng-show="car.pricePrivate" class="stat">{{car.pricePrivate.low | nullable | currency}} - {{car.pricePrivate.high | nullable | currency}}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="low-details">
+                <div class="row">
+                    <div class="span12">
+                        <h5>Engine</h5>
+                        <ul class="detail-list">
+                            <li>location: <span class="value">{{car.engineLocation | engineLocation | nullable}}</span></li>
+                            <li>configuration: <span class="value">{{car.engineConfiguration | engineConfiguration | nullable}}</span></li>
+                            <li>size: <span class="value">{{car.engineSize | nullable | engineSize}}</span></li>
+                            <li>induction: <span class="value">{{car.induction | induction | nullable}}</span></li>
+                            <li>compression: <span class="value">{{car.compression | number:2 | nullable:true}}</span></li>
+                            <li>fuel delivery: <span class="value">{{car.fuelDelivery | fuelDelivery | nullable}}</span></li>
+                            <li>type: <span class="value">{{car.cylinders | cylinders}}</span> <span class="value">{{car.cam | camType}}</span> <span class="value">{{car.engineType | engineType}}</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span12">
+                        <h5>Transmission</h5>
+                        <ul class="detail-list">
+                            <li>gears: <span class="value">{{car.gears | nullable}}</span></li>
+                            <li>type: <span class="value">{{car.transmission | transmission | nullable}}</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -362,7 +362,9 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'clean:publish',
+    'copy:publish'
   ]);
 
   grunt.registerTask('devbuild', [

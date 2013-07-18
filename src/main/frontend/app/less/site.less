@@ -1,3 +1,88 @@
-body {
-    background: red;
+html, body {
+    background: #ecf0f1;
+}
+.header {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+
+    h1 {
+        font-size: 4em;
+    }
+}
+
+.nothing {
+    text-align: center;
+    font-size: 2em;
+    margin: 20px;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.car {
+    background: #2c3e50;
+    color: #ecf0f1;
+    margin-bottom: 20px;
+    text-align: center;
+
+    .title {
+        margin-left: 25px;
+        text-align: left;
+    }
+    .title, .stat {
+        padding: 10px 0;
+    }
+    .stat {
+        text-align: center;
+        font-weight: 300;
+    }
+
+    .details {
+        background: #34495e;
+
+        .important-details {
+            background: #2980b9
+        }
+
+        .low-details {
+            text-align: left;
+
+            h5 {
+                margin-left: 25px;
+            }
+        }
+
+        ul.detail-list {
+            list-style: none;
+            li {
+                padding-right: 10px;
+                display: inline-block;
+                color: #95a5a6;
+
+                span.value {
+                    color: #ecf0f1;
+                }
+            }
+        }
+
+        .stat {
+            margin: 0 0 15px 0;
+            padding: 0;
+        }
+    }
+}
+
+form {
+    color: #2c3e50;
+
+    .control-group {
+        padding: 10px;
+    }
+    label {
+        font-weight: 600;
+    }
+
+    button {
+        margin-top: 50px;
+    }
 }

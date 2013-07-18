@@ -26,4 +26,5 @@ public enum DriveType {
     public static DriveType fromString(String str) {
         return keyToEnum.get(Strings.nullToEmpty(str));
     }
+    
 }

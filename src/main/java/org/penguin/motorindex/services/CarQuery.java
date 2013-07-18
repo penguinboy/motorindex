@@ -36,6 +36,7 @@ public class CarQuery {
     private AtomField<FuelType> fuelType = new AtomField<>("fuelType");
     private AtomField<DeliveryMethod> fuelDevliveryType = new AtomField<>("fuelDeliveryType");
     
+    private NumberField year = new NumberField("year");
     private NumberField priceNew = new NumberField("priceNew");
     private NumberField pricePrivate = new NumberField("pricePrivate");
     private NumberField priceTrade = new NumberField("priceTrade");
@@ -65,7 +66,7 @@ public class CarQuery {
     Set<AtomField> atomFields = fields(camType, bodyType, driveType, engineLocation, engineCycle,
             engineType, transmissionType, inductionType, fuelType, fuelDevliveryType);
     
-    Set<NumberField> numberFields = newHashSet(priceNew, pricePrivate, priceTrade, seats, doors,
+    Set<NumberField> numberFields = newHashSet(year, priceNew, pricePrivate, priceTrade, seats, doors,
             engineSize, gears, cylinders, compression, fuelCapacity, power, torque, fuelRatingUrban,
             fuelRatingExtraUrban, fuelRatingCombined, valvesPerCylinder, accel, weightKerb, weightTare,
             weightGrossCombined, weightGross, length, width, height);
@@ -77,6 +78,7 @@ public class CarQuery {
         StringBuilder builder = new StringBuilder();
         for (QueryField field : all) {
             builder.append(field.asQueryString());
+            builder.append(' ');
         }
         return builder.toString().trim();
     }
@@ -300,9 +302,16 @@ public class CarQuery {
         }
         
         public String asQueryString() {
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder("(");
             for (T value : values) {
+                if (builder.length() > 1) {
+                    builder.append("OR ");
+                }
                 builder.append(key + ":" + value.name() + " ");
+            }
+            builder.append(")");
+            if (builder.length() <= 2) {
+                return "";
             }
             return builder.toString().trim();
         }
